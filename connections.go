@@ -69,6 +69,7 @@ func print(c Connections) {
 	fmt.Printf("ARRIVAL PLATFORM: %v\n", c.To.Platform)
 
 }
+//calculate earliest connection from the defined time
 func calculateEarliest(queryresults query) Connections {
 	layout := "2006-01-02T15:04:05.000Z"
 	earliestConnection := queryresults.Connections[0]
@@ -82,7 +83,7 @@ func calculateEarliest(queryresults query) Connections {
 	}
 	return earliestConnection
 }
-
+//calculate the fastest connection
 func calculateFastestConn(queryresults query) Connections {
 	fastest := queryresults.Connections[0]
 	for _, v := range queryresults.Connections {
@@ -92,7 +93,7 @@ func calculateFastestConn(queryresults query) Connections {
 	}
 	return fastest
 }
-
+//compare the duration of two connections
 func isFaster(string1, string2 string) bool {
 	d1 := formatDuration(string1)
 	d2 := formatDuration(string2)
@@ -103,7 +104,7 @@ func isFaster(string1, string2 string) bool {
 	}
 	return true
 }
-
+//format the string of the duration time
 func formatDuration(duration string) []int {
 	split := strings.FieldsFunc(duration, split)
 	d := make([]int, len(split))
@@ -113,10 +114,11 @@ func formatDuration(duration string) []int {
 	}
 	return d
 }
-
+//split duration string with "d" and ":" as delimiters 
 func split(r rune) bool {
 	return r == ':' || r == 'd'
 }
+//query the API
 func (opt Options) get() query {
 	var m query
 	URL := "http://transport.opendata.ch/v1/connections" +
